@@ -87,7 +87,7 @@ class TrRun(tornado.web.RequestHandler):
             return
         img = img.convert("RGB")
         
-        time_now = time.strftime("%Y-%m-%d-%H_%M_%S",time.localtime(time.time()))
+        time_now = time.strftime("%Y-%m-%d %H:%M:%S",time.localtime(time.time()))
         time_day = time.strftime("%Y-%m-%d", time.localtime(time.time()))
         if time_day != now_time:
             now_time = time_day
