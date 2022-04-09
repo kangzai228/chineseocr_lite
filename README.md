@@ -33,16 +33,18 @@ python backend/main.py
 ## 接口调用示例
 
 ```python
+from pprint import pprint
+
 # Python 使用File上传文件
 import requests
 def ocr_img():
-    url = 'http://www.5uks.net:3000/api/tr-run/'
+    # url = 'http://www.5uks.net:3000/api/tr-run/'
+    url = 'http://www.5uks.net:3000/api/zh-ocr/'
     img1_file = {
         'file': open('img1.png', 'rb')
     }
-    # compress=0表示不压缩
     res = requests.post(url=url, data={'compress': 0}, files=img1_file)
-    print(res.json())
+    pprint(res.json())
 
 # Python 使用Base64
 import requests
@@ -53,14 +55,15 @@ def img_to_base64(img_path):
     return b64
 
 def ocr_base64():
-    url = 'http://www.5uks.net:3000/api/tr-run/'
+    # url = 'http://www.5uks.net:3000/api/tr-run/'
+    url = 'http://www.5uks.net:3000/api/zh-ocr/'
     img_b64 = img_to_base64('./img1.png')
     res = requests.post(url=url, data={'img': img_b64})
-    print(res.json())
+    pprint(res.json())
 
 if __name__=="__main__":
-    ocr_img()
-    # ocr_base64()
+    # ocr_img()
+    ocr_base64()
 ```
 
 ## QQ群

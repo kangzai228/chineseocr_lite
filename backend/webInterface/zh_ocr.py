@@ -164,8 +164,9 @@ class TrRun(tornado.web.RequestHandler):
         }
         logger.info(json.dumps(log_info, cls=NpEncoder,ensure_ascii=False))
         self.finish(json.dumps(
-            {'code': 200, 'msg': '成功',
-             'data': {'text_list': res_text_list,
-                    'speed_time': round(time.time() - start_time, 2)}},
+            {'code': 200, 
+            'msg': '成功',
+             'text_list': res_text_list
+             },
             cls=NpEncoder))
         return
