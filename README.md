@@ -30,5 +30,38 @@ python backend/main.py
 ## 参考
 1. TrWebOCR https://github.com/alisen39/TrWebOCR         
 
+## 接口调用示例
+
+```python
+# Python 使用File上传文件
+import requests
+def ocr_img():
+    url = 'http://www.5uks.net:3000/api/tr-run/'
+    img1_file = {
+        'file': open('img1.png', 'rb')
+    }
+    # compress=0表示不压缩
+    res = requests.post(url=url, data={'compress': 0}, files=img1_file)
+    print(res.json())
+
+# Python 使用Base64
+import requests
+import base64
+def img_to_base64(img_path):
+    with open(img_path, 'rb')as read:
+        b64 = base64.b64encode(read.read())
+    return b64
+
+def ocr_base64():
+    url = 'http://www.5uks.net:3000/api/tr-run/'
+    img_b64 = img_to_base64('./img1.png')
+    res = requests.post(url=url, data={'img': img_b64})
+    print(res.json())
+
+if __name__=="__main__":
+    ocr_img()
+    # ocr_base64()
+```
+
 ## QQ群
 994929053

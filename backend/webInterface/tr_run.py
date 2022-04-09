@@ -112,6 +112,7 @@ class TrRun(tornado.web.RequestHandler):
         else:
             request_time[remote_ip_now] += 1
 
+
         if compress_size is not None:
             try:
                 compress_size = int(compress_size)
@@ -121,8 +122,11 @@ class TrRun(tornado.web.RequestHandler):
                 do_det = False
                 # self.finish(json.dumps({'code': 400, 'msg': 'compress参数类型有误，只能是int类型'}, cls=NpEncoder))
                 # return
-
-            short_size = compress_size
+            if compress_size >= 1:
+                short_size = compress_size
+            else:
+                short_size= img.size[0] if img.size[0]<img.size[1] else img.size[1]
+                
             if short_size < 64:
                 res.append("短边尺寸过小，请调整短边尺寸")
                 do_det = False
@@ -175,10 +179,11 @@ class TrRun(tornado.web.RequestHandler):
             'return': res,
             'time': time_now
         }
-        logger.info(json.dumps(log_info, cls=NpEncoder))
+        logger.info(json.dumps(log_info, cls=NpEncoder,ensure_ascii=False))
         self.finish(json.dumps(
             {'code': 200, 'msg': '成功',
-             'data': {'img_detected': 'data:image/jpeg;base64,' + img_detected_b64, 'raw_out': res,
-                      'speed_time': round(time.time() - start_time, 2)}},
+             'data': {'img_detected': 'data:image/jpeg;base64,' + img_detected_b64, 
+                    'raw_out': res,
+                    'speed_time': round(time.time() - start_time, 2)}},
             cls=NpEncoder))
         return
