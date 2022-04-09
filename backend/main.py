@@ -11,6 +11,7 @@ import tornado.ioloop
 from tornado.web import StaticFileHandler
 from backend.tools.get_host_ip import host_ip
 from backend.webInterface import tr_run
+from backend.webInterface import zh_ocr
 from backend.webInterface import tr_index
 from backend.tools import log
 import logging
@@ -24,8 +25,10 @@ settings = dict(
 
 
 def make_app():
+    # tr_run.TrRun和zh_ocr.TrRun代码大部分相同，只是返回结果不同。
     return tornado.web.Application([
         (r"/api/tr-run/", tr_run.TrRun),
+        (r"/api/zh-ocr/", zh_ocr.TrRun),
         (r"/", tr_index.Index),
         (r"/(.*)", StaticFileHandler,
          {"path": os.path.join(current_path, "dist/chineseocr_lite_fontend"), "default_filename": "index.html"}),
