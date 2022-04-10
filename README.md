@@ -1,5 +1,7 @@
 # chineseocr_lite 的 onnx 推理, 部署简单
 
+## base from:[DayBreak-u/chineseocr_lite](https://github.com/DayBreak-u/chineseocr_lite)
+
 ## 原始项目分支（torch推理，ncnn推理等）：[master](https://github.com/ouyanghuiyu/chineseocr_lite/tree/master)
 
 ## 环境
