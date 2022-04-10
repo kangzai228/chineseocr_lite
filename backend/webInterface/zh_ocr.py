@@ -151,22 +151,22 @@ class TrRun(tornado.web.RequestHandler):
             img_draw = ImageDraw.Draw(img_detected)
             colors = ['red', 'green', 'blue', "purple"]
 
-            res_text_list=[]
+            words_list=[]
             for i, r in enumerate(res):
                 rect, txt, confidence = r
-                res_text_list.append(txt.split("、 ")[1])
+                words_list.append({'location':rect,'words':txt.split("、 ")[1]})
 
 
         log_info = {
             'ip': self.request.remote_ip,
-            'return': res_text_list,
+            'return': words_list,
             'time': time_now
         }
         logger.info(json.dumps(log_info, cls=NpEncoder,ensure_ascii=False))
         self.finish(json.dumps(
             {'code': 200, 
             'msg': '成功',
-             'text_list': res_text_list
+             'words_list': words_list
              },
             cls=NpEncoder))
         return
