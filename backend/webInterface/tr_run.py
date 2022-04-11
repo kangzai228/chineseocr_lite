@@ -125,7 +125,9 @@ class TrRun(tornado.web.RequestHandler):
             if compress_size >= 1:
                 short_size = compress_size
             else:
-                short_size= img.size[0] if img.size[0]<img.size[1] else img.size[1]
+                short_size= min(img.size[0],img.size[1])
+            if short_size > min(img.size[0],img.size[1]):
+                short_size = min(img.size[0],img.size[1])
                 
             if short_size < 64:
                 res.append("短边尺寸过小，请调整短边尺寸")
