@@ -152,8 +152,12 @@ class TrRun(tornado.web.RequestHandler):
             words_list=[]
             for i, r in enumerate(res):
                 rect, txt, confidence = r
-                words_list.append({'location':rect,'words':txt.split("、 ")[1]})
-
+                words_list.append({'location':{
+                    'left':rect[0][0],# 表示定位位置的长方形左上顶点的水平坐标
+                    'top':rect[0][1], # 表示定位位置的长方形左上顶点的垂直坐标
+                    'width':rect[1][0]-rect[0][0], # 表示定位定位位置的长方形的宽度
+                    'height':rect[3][1]-rect[0][1] # 表示位置的长方形的高度
+                },'words':txt.split("、 ")[1]})
 
         log_info = {
             'ip': self.request.remote_ip,
@@ -164,7 +168,8 @@ class TrRun(tornado.web.RequestHandler):
         self.finish(json.dumps(
             {'code': 200, 
             'msg': '成功',
-             'words_list': words_list
-             },
+            'words_result_num':len(words_list),
+            'words_list': words_list
+            },
             cls=NpEncoder))
         return
