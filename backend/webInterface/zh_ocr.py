@@ -50,7 +50,14 @@ class TrRun(tornado.web.RequestHandler):
         img_up = self.request.files.get('file', None)
         img_b64 = self.get_argument('img', None)
         compress_size = self.get_argument('compress', None)
-
+        token = self.get_argument('token', None)
+        """
+        if token is None:
+            self.set_status(400)
+            logger.error(json.dumps({'code': 400, 'msg': 'token不存在'}, cls=NpEncoder))
+            self.finish(json.dumps({'code': 400, 'msg': 'token不存在'}, cls=NpEncoder))
+            return
+        """
         # 判断是上传的图片还是base64
         self.set_header('content-type', 'application/json')
         up_image_type = None
@@ -107,7 +114,7 @@ class TrRun(tornado.web.RequestHandler):
         if remote_ip_now not in request_time :
             request_time[remote_ip_now] = 1 
         elif request_time[remote_ip_now] > max_post_time -1 and remote_ip_now not in white_ips  :
-            res.append("今天访问次数超过{}次！".format(max_post_time))
+            res.append("今天访问次数超过{}次!".format(max_post_time))
             do_det = False
         else:
             request_time[remote_ip_now] += 1
@@ -165,11 +172,19 @@ class TrRun(tornado.web.RequestHandler):
             'time': time_now
         }
         logger.info(json.dumps(log_info, cls=NpEncoder,ensure_ascii=False))
-        self.finish(json.dumps(
-            {'code': 200, 
-            'msg': '成功',
-            'words_result_num':len(words_list),
-            'words_list': words_list
-            },
-            cls=NpEncoder))
+        if do_det:
+            self.finish(json.dumps(
+                {'code': 200, 
+                'msg': '成功',
+                'words_result_num':len(words_list),
+                'words_list': words_list
+                },
+                cls=NpEncoder))
+        else:
+            self.finish(json.dumps(
+                {'code': 200, 
+                'msg': '失败',
+                'tips':res
+                },
+                cls=NpEncoder))
         return
