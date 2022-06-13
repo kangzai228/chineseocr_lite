@@ -12,6 +12,7 @@
 ## web服务启动
 ``` Bash
 cd chineseocr_lite## 进入chineseocr目录
+source .venv/bin/activate
 python backend/main.py 
 ```
 ## 以下为从Python代码翻译为各种语言的Demo，仅供参考:
